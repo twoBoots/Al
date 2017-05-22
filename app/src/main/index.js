@@ -2,23 +2,26 @@ const _ = require('lodash');
 
 import {app, BrowserWindow, dialog} from 'electron';
 
+import os from 'os';
+
 import windows from './windows';
 
-let Windows = {};
+const Windows = {};
 
 function winURL(path) {
-    return process.env.NODE_ENV === 'development'
+  return process.env.NODE_ENV === 'development'
       ? `http://localhost:${require('../../../config').port}/${path}`
       : `file://${__dirname}/${path}`;
 }
 
 function createWindows() {
+
   _.forIn(windows, (args, name) => {
     Windows[name] = new BrowserWindow({
-      titleBarStyle:  args.titleBarStyle  || 'hidden',
-      frame:          args.frame          || false,
-      height:         args.height         || 600,
-      width:          args.width          || 800
+      titleBarStyle: (os.platform() === 'darwin') ? 'default' : 'hidden',
+      frame: (os.platform() === 'darwin') ? true : (args.frame || false),
+      height: args.height || 600,
+      width: args.width || 800
     });
 
     Windows[name].loadURL(winURL(args.root));

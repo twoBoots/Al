@@ -11,10 +11,15 @@
   import store from 'renderer/vuex/store';
   import WindowBar from 'components/WindowBar';
 
+  const {remote} = require('electron');
+
   // const ipcChannels = ['app:*'];
   // const ipcChannels = '*';
 
   // const channels = require(chanMan)(icpChannels);
+
+  remote.getCurrentWindow().setTitle('Al - Settings');
+
   const channels = {};
 
   export default {
