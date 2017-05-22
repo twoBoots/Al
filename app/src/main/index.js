@@ -1,12 +1,14 @@
 const _ = require('lodash');
+const async = require('async');
 
-import {app, BrowserWindow, dialog} from 'electron';
+import {app, BrowserWindow, dialog, ipcMain} from 'electron';
 
 import os from 'os';
 
-import windows from './windows';
+import Windows from './windows';
+// import channels from './channels';
 
-const Windows = {};
+const windows = {};
 
 function winURL(path) {
   return process.env.NODE_ENV === 'development'
@@ -14,23 +16,24 @@ function winURL(path) {
       : `file://${__dirname}/${path}`;
 }
 
+
 function createWindows() {
 
-  _.forIn(windows, (args, name) => {
-    Windows[name] = new BrowserWindow({
+  _.forIn(Windows, (args, name) => {
+    windows[name] = new BrowserWindow({
       titleBarStyle: (os.platform() === 'darwin') ? 'default' : 'hidden',
       frame: (os.platform() === 'darwin') ? true : (args.frame || false),
       height: args.height || 600,
       width: args.width || 800
     });
 
-    Windows[name].loadURL(winURL(args.root));
+    windows[name].loadURL(winURL(args.root));
 
     console.log(winURL(args.root));
 
-    Windows[name].on('closed', () => {
+    windows[name].on('closed', () => {
       // probs loss of scope
-      Windows[name] = null;
+      windows[name] = null;
     });
   });
 }
@@ -47,4 +50,17 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+
+/*
+ channels
+*/
+
+ipcMain.on('tap', (event, data) => {
+
+});
+
+ipcMain.on('untap', (event, data) => {
+
 });
