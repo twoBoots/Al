@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="platform">
     <div id='content'>
       <router-view></router-view>
     </div>
@@ -13,6 +13,9 @@
 
   const {remote} = require('electron');
 
+  import os from 'os';
+  const platform = os.platform();
+
   // const ipcChannels = ['app:*'];
   // const ipcChannels = '*';
 
@@ -23,6 +26,9 @@
   const channels = {};
 
   export default {
+    data: {
+      platform
+    },
     channels,
     store,
     components: {
@@ -55,15 +61,19 @@
     font-family: Lato, Helvetica, sans-serif;
     justify-content: center;
     text-align: center;
+  }
 
-    #content {
-      position: absolute;
-      top: 24px;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border: 1px solid #eee;
-      border-top: none;
+  #content {
+    position: absolute;
+    top: 24px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 1px solid #eee;
+    border-top: none;
+
+    .darwin & {
+      top: 0;
     }
   }
 </style>

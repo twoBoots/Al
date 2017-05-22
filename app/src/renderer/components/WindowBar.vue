@@ -37,6 +37,10 @@
     top: 0;
     width: 100%;
 
+    .darwin & {
+      display: none;
+    }
+
     #window-title {
       -webkit-app-region: drag;
       width: ~"calc(100% - 48px)";
