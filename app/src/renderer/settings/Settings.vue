@@ -8,33 +8,52 @@
 </template>
 
 <script>
+  import os from 'os';
   import store from 'renderer/vuex/store';
-  import WindowBar from 'components/WindowBar';
+  import {bus} from './settings.js';
+
+  import ChanMan from '../modules/ChanMan';
+  const channels = new ChanMan();
 
   const {remote} = require('electron');
-
-  import os from 'os';
   const platform = os.platform();
 
-  // const ipcChannels = ['app:*'];
-  // const ipcChannels = '*';
-
-  // const channels = require(chanMan)(icpChannels);
 
   remote.getCurrentWindow().setTitle('Al - Settings');
 
-  const channels = {};
 
   export default {
-    data: {
-      platform
+    data() {
+      return {
+        platform
+      };
     },
     channels,
     store,
     components: {
-      WindowBar
-    }
+      windowBar: require('components/WindowBar')
+    },
+    methods: {
+      registerEvents
+    },
+    created() {},
+    mounted() {
+      this.registerEvents();
+    },
+    updated() {},
+    destroyed() {}
   };
+
+
+  function registerEvents() {
+    channels.on('settings:state', (e, d) => {
+      bus.$emit('app:state', d);
+    });
+
+    bus.$on('app:quit', () => {
+      channels.send('app:quit');
+    });
+  }
 </script>
 
 <style lang="less">

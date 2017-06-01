@@ -10,9 +10,13 @@ Vue.use(Router);
 Vue.config.debug = true;
 
 const router = new Router({
-  scrollBehavior: () => ({y: 0}),
+  scrollBehavior: () => {
+    return {y: 0};
+  },
   routes
 });
+
+export const bus = new Vue();
 
 /* eslint-disable no-new */
 new Vue({

@@ -17,8 +17,8 @@
     "postinstall": "npm run lint:fix && cd app && npm install"
   },
   "build": {
-    "productName": "ElectronVue",
-    "appId": "org.simulatedgreg.electron-vue",
+    "productName": "Al",
+    "appId": "org.twoBoots.al",
     "category": "public.app-category.tools",
     "dmg": {
       "contents": [
@@ -52,7 +52,7 @@
       ]
     }
   },
-  "author": "Greg Holguin <simulatedgreg@gmail.com>",
+  "author": "Brew <brew@zentri.com>",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.8.0",
@@ -109,6 +109,7 @@
     "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
+    "async": "^2.4.1",
     "less": "^2.7.2",
     "less-loader": "^4.0.3",
     "lodash": "^4.17.4"
