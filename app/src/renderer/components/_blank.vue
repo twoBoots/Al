@@ -9,6 +9,8 @@
 
 
   export default {
+    name: '',
+    props: [],
     data() {
       return {};
     },
