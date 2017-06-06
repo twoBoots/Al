@@ -1,7 +1,8 @@
 <template>
-  <div class='burst'>
+  <div :id='id' :classList='classList'>
   </div>
 </template>
+
 
 <script>
   import store from 'renderer/vuex/store';
@@ -10,7 +11,7 @@
 
   export default {
     name: '',
-    props: [],
+    props: ['id', 'classList'],
     data() {
       return {};
     },
@@ -22,6 +23,7 @@
     destroyed() {}
   };
 </script>
+
 
 <style lang="less">
 
