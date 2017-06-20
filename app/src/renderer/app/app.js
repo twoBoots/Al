@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Electron from 'vue-electron';
 import Router from 'vue-router';
 
-import App from './App';
+import App from './AppWindow';
 import routes from '../routes';
 
 Vue.use(Electron);

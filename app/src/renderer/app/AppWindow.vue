@@ -19,7 +19,7 @@
   const platform = os.platform();
 
 
-  remote.getCurrentWindow().setTitle('Al - Settings');
+  remote.getCurrentWindow().setTitle('Al');
 
 
   export default {
