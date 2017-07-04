@@ -34,10 +34,15 @@ module.exports = {
     }}],
     'padded-blocks': ["error", { "switches": "never" }],
     'comma-spacing': ["warn", { "before": false, "after": true }],
+    'no-unused-vars': ["error", { "args": "none" }],
     'comma-dangle': ["error", {
       "arrays": "never",
       "objects": "never"
     }],
-    "object-curly-spacing": ["error", "never", { "objectsInObjects": false }]
+    "object-curly-spacing": ["error", "never", { "objectsInObjects": false }],
+    "import/extensions": ["error", "never"],
+    "import/no-extraneous-dependencies": 0,
+    "no-underscore-dangle": 0,
+    "class-methods-use-this": 0
   }
 }
