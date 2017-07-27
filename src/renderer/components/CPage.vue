@@ -5,9 +5,9 @@
       <li :class="{active:state.is.c0}">C<sub>0</sub></li>
       <li :class="{active:state.is.c1}">C<sub>1</sub></li>
       <li :class="{active:state.is.c2}">C<sub>2</sub></li>
-      <li :class="{active:state.is.c3}">C<sub>3</sub></li>
-      <li :class="{active:state.is.c4}">C<sub>4</sub></li>
-      <li :class="{active:state.is.c5}">C<sub>5</sub></li>
+      <li :class="{active:state.is.c3, 'can-skip':true}">C<sub>3</sub></li>
+      <li :class="{active:state.is.c4, 'can-skip':true}">C<sub>4</sub></li>
+      <li :class="{active:state.is.c5, 'can-skip':true}">C<sub>5</sub></li>
       <li :class="{active:state.is.c6}">C<sub>6</sub></li>
     </ul>
     <transition name='transition-fade-up' appear mode="out-in">
@@ -67,6 +67,8 @@
   @import '../less/colors.less';
 
   .c-page {
+    user-select: none;
+
     h1 {
       margin-top: 40px;
     }
@@ -96,9 +98,27 @@
         &.active ~ li {
           .gray-lighter;
 
+          &:before {
+            border-color: @gray-bright;
+          }
+
           &:after {
             .background-gray-bright;
           }
+        }
+
+        &.can-skip:before {
+          content: '';
+          display: block;
+          width: 170px;
+          height: 40px;
+          border-radius: 1px;
+          position: absolute;
+          left: -164px;
+          top: -12px;
+          border: 2px solid @green-lighter;
+          border-radius: 50%;
+          border-bottom-style: none;
         }
       }
     }
