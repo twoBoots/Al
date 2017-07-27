@@ -1,5 +1,6 @@
 
 import {app, BrowserWindow, Menu} from 'electron';
+import settings from 'electron-settings';
 
 import os from 'os';
 
@@ -39,14 +40,31 @@ function setupEvents(next) {
   next();
 }
 
+/*
+  move to settingsMan
+*/
+let settingsTimer = null;
+function saveBounds(window) {
+  if(settingsTimer) {
+    clearTimeout(settingsTimer);
+  }
+
+  settingsTimer = setTimeout(() => {
+    settings.set(`${app.getName()}.settings.windows.${window}.bounds`, windows[window].getBounds());
+  }, 3000);
+}
+
 
 function createWindows(next) {
   _.forIn(Windows, (args, name) => {
     windows[name] = new BrowserWindow({
       titleBarStyle: (os.platform() === 'darwin') ? 'default' : 'hidden',
       frame: (os.platform() === 'darwin') ? true : (args.frame || false),
-      height: args.height || 600,
-      width: args.width || 800,
+
+      width: settings.get(`${app.getName()}.settings.windows.${name}.bounds.width`) || args.width || 800,
+      height: settings.get(`${app.getName()}.settings.windows.${name}.bounds.height`) || args.height || 600,
+      x: settings.get(`${app.getName()}.settings.windows.${name}.bounds.x`),
+      y: settings.get(`${app.getName()}.settings.windows.${name}.bounds.y`),
 
       _self: name,
       show: false
@@ -64,6 +82,16 @@ function createWindows(next) {
       windows[name].show();
       windows[name].focus();
     });
+
+    if(args.saveBounds) {
+      windows[name].on('resize', (e, r, b) => {
+        saveBounds(name);
+      });
+
+      windows[name].on('move', (e, r, b) => {
+        saveBounds(name);
+      });
+    }
   });
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(MenuTemplate));

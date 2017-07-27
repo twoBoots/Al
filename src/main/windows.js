@@ -1,8 +1,6 @@
 module.exports = {
   app: {
-    root: 'app.html'
-  },
-  settings: {
-    root: 'settings.html'
+    root: 'app.html',
+    saveBounds: true
   }
 };

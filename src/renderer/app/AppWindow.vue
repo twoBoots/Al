@@ -1,16 +1,22 @@
 <template>
   <div id="app" :class="platform">
     <div id='content'>
-      <router-view></router-view>
+      <transition name='transition-swipe-fade' appear mode="out-in">
+        <router-view></router-view>
+      </transition>
     </div>
-    <window-bar title='Al'></window-bar>
+    <nav-bar></nav-bar>
+    <window-bar title="Hg"></window-bar>
   </div>
 </template>
+
 
 <script>
   import os from 'os';
   import store from '@/store';
   import bus from '@/modules/Bus';
+
+  import FSM from 'state-machine';
 
   import ChanMan from '@/modules/ChanMan';
 
@@ -21,24 +27,27 @@
   const platform = os.platform();
 
 
-  remote.getCurrentWindow().setTitle('Al');
-
+  remote.getCurrentWindow().setTitle('Hg');
 
   export default {
+    store,
+    channels,
+    fsm: FSM.create({}),
     data() {
       return {
         platform
       };
     },
-    channels,
-    store,
     components: {
+      navBar: require('@/components/NavBar'),
       windowBar: require('@/components/WindowBar')
     },
     methods: {
       registerEvents
     },
-    created() {},
+    created() {
+      console.log('c', this);
+    },
     mounted() {
       this.registerEvents();
     },
@@ -48,7 +57,7 @@
 
 
   function registerEvents() {
-    channels.on('app:state', (e, d) => {
+    channels.on('settings:state', (e, d) => {
       bus.$emit('app:state', d);
     });
 
@@ -57,6 +66,7 @@
     });
   }
 </script>
+
 
 <style lang="less">
   @import url(https://fonts.googleapis.com/css?family=Lato:300);
@@ -92,9 +102,34 @@
     right: 0;
     border: 1px solid #eee;
     border-top: none;
+    overflow-x: hidden;
 
     .darwin & {
       top: 0;
+    }
+  }
+
+  .transition-swipe-fade {
+
+    &-enter-active, &-leave-active {
+      transition: all .175s ease;
+    }
+
+    &-enter {
+      transform: translate(128px, 0);
+    }
+
+    &-enter, &-leave-to {
+      opacity: 0;
+    }
+
+    &-enter-to, &-leave {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+
+    &-leave-to {
+      transform: translate(-128px, 0);
     }
   }
 </style>
