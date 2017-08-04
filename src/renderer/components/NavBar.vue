@@ -5,6 +5,7 @@
       <router-link to='/a/0' tag='li'>A</router-link>
       <router-link to='/b' tag='li'>B</router-link>
       <router-link to='/c' tag='li'>C</router-link>
+      <router-link to='/git' tag='li'>git</router-link>
     </ul>
     <div v-on:click='toggleNav' class='nav-control'>
       &gt;

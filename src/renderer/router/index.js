@@ -54,6 +54,10 @@ export default new Router({
       ]
     },
     {
+      path: '/git',
+      component: require('@/components/Git')
+    },
+    {
       path: '*',
       redirect: '/'
     }

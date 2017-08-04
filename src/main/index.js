@@ -3,6 +3,7 @@ import {app, BrowserWindow, Menu} from 'electron';
 import settings from 'electron-settings';
 
 import os from 'os';
+import {spawn} from 'child_process';
 
 import Windows from './windows';
 import ChanMan from './modules/ChanMan';
@@ -31,11 +32,33 @@ function start() {
   });
 }
 
+function doGitCmd(d) {
+  console.log('doing git');
+
+  const git = spawn('git', ['rev-parse', 'HEAD']);
+
+  channels.send('git:stdout', 'starting...');
+
+  git.stdout.on('data', (data) => {
+    channels.send('git:stdout', data.toString());
+  });
+
+  git.stderr.on('data', (data) => {
+    channels.send('git:stdout', data.toString());
+  });
+
+  git.on('close', (code) => {
+    channels.send('git:stdout', `child process exited with code ${code}`);
+  });
+}
+
 
 function setupEvents(next) {
   channels.on('app:quit', () => {
     app.quit();
   });
+
+  channels.on('git:cmd', doGitCmd);
 
   next();
 }

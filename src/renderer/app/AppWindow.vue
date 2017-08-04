@@ -45,9 +45,7 @@
     methods: {
       registerEvents
     },
-    created() {
-      console.log('c', this);
-    },
+    created() {},
     mounted() {
       this.registerEvents();
     },
@@ -63,6 +61,14 @@
 
     bus.$on('app:quit', () => {
       channels.send('app:quit');
+    });
+
+    bus.$on('git:cmd', (d) => {
+      channels.send('git:cmd', d);
+    });
+
+    channels.on('git:stdout', (e, d) => {
+      bus.$emit('git:stdout', d);
     });
   }
 </script>
